@@ -17,13 +17,13 @@ let package = Package(
   targets: [
     .binaryTarget(
       name: "algokit_transactFFI",
-      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v0.0.10/algokit_transact.xcframework.zip",
-      checksum: "7834240f526658c9aee6ec3526cf2690ac3aa392a1b64fcc480473e8650c0899"
+      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v0.0.13/algokit_transact.xcframework.zip",
+      checksum: "96fe2d93e4c2834d9926672baa6e50dbcb5ff1dd71fb51d31b209e50d8265ca2"
     ),
     .binaryTarget(
       name: "algokit_cryptoFFI",
-      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v0.0.10/algokit_crypto.xcframework.zip",
-      checksum: "8f2ec4220fd5cfa8db2dc7ac85b2c36f3b89294ebe61688243a8e283c73299d8"
+      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v0.0.13/algokit_crypto.xcframework.zip",
+      checksum: "17fb964c778b816aebb94c507672297b41694d59fcb65152eeb1178128791463"
     ),
 
     .target(
