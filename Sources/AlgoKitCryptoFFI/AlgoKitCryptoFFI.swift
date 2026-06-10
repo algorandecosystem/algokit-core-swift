@@ -567,6 +567,92 @@ public func FfiConverterTypeMnemonicError_lower(_ value: MnemonicError) -> RustB
 }
 
 
+/**
+ * FFI-compatible mirror of [`algokit_crypto::xhd::DerivedAccount`] with byte
+ * vectors in place of fixed-size arrays.
+ */
+public struct XhdDerivedAccount {
+    /**
+     * Extended private key: 32-byte scalar, 32-byte prefix, 32-byte chain code.
+     */
+    public var extendedPrivateKey: Data
+    /**
+     * Ed25519 public key derived from the extended private key.
+     */
+    public var publicKey: Data
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(
+        /**
+         * Extended private key: 32-byte scalar, 32-byte prefix, 32-byte chain code.
+         */extendedPrivateKey: Data, 
+        /**
+         * Ed25519 public key derived from the extended private key.
+         */publicKey: Data) {
+        self.extendedPrivateKey = extendedPrivateKey
+        self.publicKey = publicKey
+    }
+}
+
+#if compiler(>=6)
+extension XhdDerivedAccount: Sendable {}
+#endif
+
+
+extension XhdDerivedAccount: Equatable, Hashable {
+    public static func ==(lhs: XhdDerivedAccount, rhs: XhdDerivedAccount) -> Bool {
+        if lhs.extendedPrivateKey != rhs.extendedPrivateKey {
+            return false
+        }
+        if lhs.publicKey != rhs.publicKey {
+            return false
+        }
+        return true
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(extendedPrivateKey)
+        hasher.combine(publicKey)
+    }
+}
+
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeXhdDerivedAccount: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> XhdDerivedAccount {
+        return
+            try XhdDerivedAccount(
+                extendedPrivateKey: FfiConverterData.read(from: &buf), 
+                publicKey: FfiConverterData.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: XhdDerivedAccount, into buf: inout [UInt8]) {
+        FfiConverterData.write(value.extendedPrivateKey, into: &buf)
+        FfiConverterData.write(value.publicKey, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeXhdDerivedAccount_lift(_ buf: RustBuffer) throws -> XhdDerivedAccount {
+    return try FfiConverterTypeXhdDerivedAccount.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeXhdDerivedAccount_lower(_ value: XhdDerivedAccount) -> RustBuffer {
+    return FfiConverterTypeXhdDerivedAccount.lower(value)
+}
+
+
 public enum AlgoKitAlgo25Error: Swift.Error {
 
     
@@ -721,6 +807,85 @@ extension AlgoKitCryptoError: Foundation.LocalizedError {
 
 
 
+
+/**
+ * FFI-compatible error type for HD wallet operations.
+ */
+public enum AlgoKitXhdError: Swift.Error {
+
+    
+    
+    case Error(errMsg: String
+    )
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeAlgoKitXhdError: FfiConverterRustBuffer {
+    typealias SwiftType = AlgoKitXhdError
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> AlgoKitXhdError {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+
+        
+
+        
+        case 1: return .Error(
+            errMsg: try FfiConverterString.read(from: &buf)
+            )
+
+         default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: AlgoKitXhdError, into buf: inout [UInt8]) {
+        switch value {
+
+        
+
+        
+        
+        case let .Error(errMsg):
+            writeInt(&buf, Int32(1))
+            FfiConverterString.write(errMsg, into: &buf)
+            
+        }
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeAlgoKitXhdError_lift(_ buf: RustBuffer) throws -> AlgoKitXhdError {
+    return try FfiConverterTypeAlgoKitXhdError.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeAlgoKitXhdError_lower(_ value: AlgoKitXhdError) -> RustBuffer {
+    return FfiConverterTypeAlgoKitXhdError.lower(value)
+}
+
+
+extension AlgoKitXhdError: Equatable, Hashable {}
+
+
+
+
+extension AlgoKitXhdError: Foundation.LocalizedError {
+    public var errorDescription: String? {
+        String(reflecting: self)
+    }
+}
+
+
+
+
 // Note that we don't yet support `indirect` for enums.
 // See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
 
@@ -792,6 +957,79 @@ public func FfiConverterTypeMnemonicErrorKind_lower(_ value: MnemonicErrorKind) 
 
 
 extension MnemonicErrorKind: Equatable, Hashable {}
+
+
+
+
+
+
+// Note that we don't yet support `indirect` for enums.
+// See https://github.com/mozilla/uniffi-rs/issues/396 for further discussion.
+/**
+ * FFI-compatible mirror of [`algokit_crypto::xhd::KeyContext`].
+ */
+
+public enum XhdKeyContext {
+    
+    case address
+    case identity
+}
+
+
+#if compiler(>=6)
+extension XhdKeyContext: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeXhdKeyContext: FfiConverterRustBuffer {
+    typealias SwiftType = XhdKeyContext
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> XhdKeyContext {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        
+        case 1: return .address
+        
+        case 2: return .identity
+        
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: XhdKeyContext, into buf: inout [UInt8]) {
+        switch value {
+        
+        
+        case .address:
+            writeInt(&buf, Int32(1))
+        
+        
+        case .identity:
+            writeInt(&buf, Int32(2))
+        
+        }
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeXhdKeyContext_lift(_ buf: RustBuffer) throws -> XhdKeyContext {
+    return try FfiConverterTypeXhdKeyContext.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeXhdKeyContext_lower(_ value: XhdKeyContext) -> RustBuffer {
+    return FfiConverterTypeXhdKeyContext.lower(value)
+}
+
+
+extension XhdKeyContext: Equatable, Hashable {}
 
 
 
@@ -881,6 +1119,92 @@ public func seedFromMnemonic(mnemonic: String)throws  -> Data  {
     )
 })
 }
+/**
+ * Derives an extended private key at the BIP44 path
+ * `m/44'/<coin>'/<account>'/0/<key_index>` using the Peikert derivation scheme.
+ *
+ * The `coin` segment is determined by `key_context`: 283 for
+ * [`XhdKeyContext::Address`] and 0 for [`XhdKeyContext::Identity`].
+ *
+ * # Errors
+ *
+ * Returns an error if `root_key` is not exactly 96 bytes or does not form a
+ * valid extended private key.
+ */
+public func xhdDerive(rootKey: Data, keyContext: XhdKeyContext, account: UInt32, keyIndex: UInt32)throws  -> XhdDerivedAccount  {
+    return try  FfiConverterTypeXhdDerivedAccount_lift(try rustCallWithError(FfiConverterTypeAlgoKitXhdError_lift) {
+    uniffi_algokit_crypto_ffi_fn_func_xhd_derive(
+        FfiConverterData.lower(rootKey),
+        FfiConverterTypeXhdKeyContext_lower(keyContext),
+        FfiConverterUInt32.lower(account),
+        FfiConverterUInt32.lower(keyIndex),$0
+    )
+})
+}
+/**
+ * Signs `msg` with an already-derived 96-byte extended private key.
+ *
+ * # Errors
+ *
+ * Returns an error if `extended_key` is not exactly 96 bytes or does not form
+ * a valid extended private key.
+ */
+public func xhdRawSign(extendedKey: Data, msg: Data)throws  -> Data  {
+    return try  FfiConverterData.lift(try rustCallWithError(FfiConverterTypeAlgoKitXhdError_lift) {
+    uniffi_algokit_crypto_ffi_fn_func_xhd_raw_sign(
+        FfiConverterData.lower(extendedKey),
+        FfiConverterData.lower(msg),$0
+    )
+})
+}
+/**
+ * Derives a 96-byte root extended private key directly from a BIP39 mnemonic.
+ *
+ * Convenience wrapper around [`xhd_seed_from_mnemonic`] +
+ * [`xhd_root_key_from_seed`].
+ *
+ * # Errors
+ *
+ * Returns an error if `mnemonic` is not a valid BIP39 phrase.
+ */
+public func xhdRootKeyFromMnemonic(mnemonic: String)throws  -> Data  {
+    return try  FfiConverterData.lift(try rustCallWithError(FfiConverterTypeAlgoKitXhdError_lift) {
+    uniffi_algokit_crypto_ffi_fn_func_xhd_root_key_from_mnemonic(
+        FfiConverterString.lower(mnemonic),$0
+    )
+})
+}
+/**
+ * Derives a 96-byte root extended private key from a 64-byte seed.
+ *
+ * # Errors
+ *
+ * Returns an error if `seed` is not exactly 64 bytes.
+ */
+public func xhdRootKeyFromSeed(seed: Data)throws  -> Data  {
+    return try  FfiConverterData.lift(try rustCallWithError(FfiConverterTypeAlgoKitXhdError_lift) {
+    uniffi_algokit_crypto_ffi_fn_func_xhd_root_key_from_seed(
+        FfiConverterData.lower(seed),$0
+    )
+})
+}
+/**
+ * Derives a 64-byte BIP39 seed from a 12/15/18/21/24-word mnemonic.
+ *
+ * The BIP39 passphrase is hardcoded to the empty string; this binding does
+ * not expose passphrase-based derivation.
+ *
+ * # Errors
+ *
+ * Returns an error if `mnemonic` is not a valid BIP39 phrase.
+ */
+public func xhdSeedFromMnemonic(mnemonic: String)throws  -> Data  {
+    return try  FfiConverterData.lift(try rustCallWithError(FfiConverterTypeAlgoKitXhdError_lift) {
+    uniffi_algokit_crypto_ffi_fn_func_xhd_seed_from_mnemonic(
+        FfiConverterString.lower(mnemonic),$0
+    )
+})
+}
 
 private enum InitializationResult {
     case ok
@@ -919,6 +1243,21 @@ private let initializationResult: InitializationResult = {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_algokit_crypto_ffi_checksum_func_seed_from_mnemonic() != 21226) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_algokit_crypto_ffi_checksum_func_xhd_derive() != 52973) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_algokit_crypto_ffi_checksum_func_xhd_raw_sign() != 60836) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_algokit_crypto_ffi_checksum_func_xhd_root_key_from_mnemonic() != 40161) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_algokit_crypto_ffi_checksum_func_xhd_root_key_from_seed() != 52215) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_algokit_crypto_ffi_checksum_func_xhd_seed_from_mnemonic() != 17628) {
         return InitializationResult.apiChecksumMismatch
     }
 
