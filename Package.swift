@@ -9,6 +9,7 @@ let package = Package(
   products: [
     .library(name: "AlgoKitTransact", targets: ["AlgoKitTransact"]),
     .library(name: "AlgoKitCrypto", targets: ["AlgoKitCrypto"]),
+    .library(name: "AlgoKitComposer", targets: ["AlgoKitComposer"]),
     .library(name: "AlgoKitUtils", targets: ["AlgoKitUtils"]),
   ],
   dependencies: [
@@ -25,6 +26,11 @@ let package = Package(
       url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v1.0.0-alpha.81/algokit_crypto.xcframework.zip",
       checksum: "e10c98ddf8a7f23641678442e96b4d5d075cd4a14e93031d7494cdcd990b2c04"
     ),
+    .binaryTarget(
+      name: "algokit_composerFFI",
+      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v0.0.0-bootstrap/algokit_composer.xcframework.zip",
+      checksum: "0000000000000000000000000000000000000000000000000000000000000000"
+    ),
 
     .target(
       name: "AlgoKitTransactFFI",
@@ -35,6 +41,11 @@ let package = Package(
       name: "AlgoKitCryptoFFI",
       dependencies: ["algokit_cryptoFFI"],
       path: "Sources/AlgoKitCryptoFFI"
+    ),
+    .target(
+      name: "AlgoKitComposerFFI",
+      dependencies: ["algokit_composerFFI"],
+      path: "Sources/AlgoKitComposerFFI"
     ),
 
     .target(
@@ -48,8 +59,13 @@ let package = Package(
       path: "Sources/AlgoKitCrypto"
     ),
     .target(
+      name: "AlgoKitComposer",
+      dependencies: ["AlgoKitComposerFFI"],
+      path: "Sources/AlgoKitComposer"
+    ),
+    .target(
       name: "AlgoKitUtils",
-      dependencies: ["AlgoKitTransact", "AlgoKitCrypto"],
+      dependencies: ["AlgoKitTransact", "AlgoKitCrypto", "AlgoKitComposer"],
       path: "Sources/AlgoKitUtils"
     ),
 
