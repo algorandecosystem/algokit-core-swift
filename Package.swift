@@ -18,18 +18,18 @@ let package = Package(
   targets: [
     .binaryTarget(
       name: "algokit_transactFFI",
-      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v1.0.0-alpha.84/algokit_transact.xcframework.zip",
-      checksum: "99523ee3f5ce52efb09ca468a5df14831fb07ae2bd3887d4875a5e8724570130"
+      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v1.0.0-alpha.85/algokit_transact.xcframework.zip",
+      checksum: "e7066f3a3672f06bf6c9aa7fe7ac2b1d7c26b704f0125541a17d8ca2a9734e73"
     ),
     .binaryTarget(
       name: "algokit_cryptoFFI",
-      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v1.0.0-alpha.84/algokit_crypto.xcframework.zip",
-      checksum: "f47b45140816721e2b4f98d1871dc475ec9a8ee27c8550b93cdde8902c5356ee"
+      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v1.0.0-alpha.85/algokit_crypto.xcframework.zip",
+      checksum: "905ff2d65087199e23f14e29d1d18e323f13b707093fcf9ff7c5fcb65df080f4"
     ),
     .binaryTarget(
       name: "algokit_composerFFI",
-      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v1.0.0-alpha.84/algokit_composer.xcframework.zip",
-      checksum: "d80949842917f3a2be8e8e4bc05c0dfa7cf22758104dabe7ac3add3493b6d4fb"
+      url: "https://github.com/algorandecosystem/algokit-core-swift/releases/download/v1.0.0-alpha.85/algokit_composer.xcframework.zip",
+      checksum: "139b9e57b89392c141560f0d21d3bfc2163d1b153f8010ad61cbd4bcf5bb540e"
     ),
 
     .target(
